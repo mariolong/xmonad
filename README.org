@@ -5,11 +5,40 @@
 * 前言
 xmonad 真的是好。
 
-* xmonad screen and keybinding
-Full screen
+原先和 KDE，LXQt 搭配，充當它們的 WM。最近終於下定決心，直接用 xmonad，
+發現比較穩，不易當機，更好的是：速度變快，佔用較少的記憶體。
+
+當然，要自行配置的工作會比較多，但也沒有很多要處理。
+
+* xmonad
+
+** screen
+
+配置好了的畫面如下：
+
 #+HTML: <img src="https://drive.google.com/uc?export=view&id=10KSAp77FCaH2ewXwM8ATCrrbDN7gsGHD4w"/>
+
+** keybinding
+
+** .xinit.rc
+
 
 * taffybar
 
-Status bar
+我的 status bar 是用 taffybar，比較漂亮，也花了些時間改變原本的 widget。
+
 #+HTML: <img src="https://drive.google.com/uc?export=view&id=1HygJOHntcOxSce3RYXO4cq9yu6PYp7ncfQ"/>
+
+整條 taffybar，由左至右說明如下：
+
+1. 應用程式：目前只放 4 個：關機、chrome、picture viewer、adsl。
+2. workspace：有 1..9 個，有程式在跑的才會顯示工作區的編號。
+3. title of active window
+4. mpd status
+5. CPU/memory/network usage trend
+6. systray
+7. date and time
+
+另外，還有 notification，接在 title of active window 之後，可以顯示系統通知。
+
+如此，足矣。
