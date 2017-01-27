@@ -1,4 +1,3 @@
-
 import XMonad
 
 import XMonad.Actions.CopyWindow (copyToAll) -- useful for mplayer
@@ -7,22 +6,24 @@ import XMonad.Actions.SpawnOn
 import XMonad.Config.Desktop
 import XMonad.Hooks.EwmhDesktops (ewmh, fullscreenEventHook)
 import XMonad.Hooks.InsertPosition -- Focus windows
-import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageDocks -- This module provides tools to automatically manage dock type programs
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.UrgencyHook
+-- import XMonad.Hooks.UrgencyHook
+-- import XMonad.Layout.Decoration --(defaultTheme)
 import XMonad.Layout.Maximize
-import XMonad.Layout.Decoration (defaultTheme)
+import XMonad.Layout.Tabbed
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.NoBorders (noBorders, smartBorders)
 import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Reflect
 import XMonad.Layout.Spacing()
-import XMonad.Layout.Tabbed --(defaultTheme)
+
+import qualified XMonad.StackSet as W
+
 import XMonad.Util.EZConfig
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.Run (safeSpawn)
 import XMonad.Util.WorkspaceCompare
-import qualified XMonad.StackSet as W
 
 import System.Taffybar.Hooks.PagerHints (pagerHints)
 
@@ -30,9 +31,7 @@ main::IO()
 main = xmonad
        $ ewmh
        $ pagerHints
-       $ myConfig desktopConfig
-
-myConfig c = c
+       $ desktopConfig
              { workspaces = myWorkspaces
              , modMask    = mod4Mask
              , terminal   = "st"
@@ -40,30 +39,31 @@ myConfig c = c
              , borderWidth = 2
              , normalBorderColor = "#3d3d3d"
              , focusedBorderColor = "#f99157"
-             , layoutHook = myLayout
              , manageHook = myManageHook
                             <+> manageDocks
                             <+> manageSpawn
-                            <+> manageHook c
+--                            <+> manageHook desktopConfig
                             <+> composeOne
                                     [ fmap not isDialog -?> doF avoidMaster
                                     , return True       -?> doF W.swapDown
                                     ]
-             , handleEventHook = fullscreenEventHook -- for google chrome fullscreen
+             , layoutHook = myLayout
+             , handleEventHook = docksEventHook <+> fullscreenEventHook -- for google chrome fullscreen
              , startupHook = spawnOnce "taffybar"
              } `additionalKeysP` myKeys
 
 myWorkspaces::[String]
 myWorkspaces = map show [1 .. 9 :: Int]
 
-myTabTheme = defaultTheme { inactiveColor = "#222222"
-                           , inactiveTextColor = "#777777"
-                           , inactiveBorderColor = "#222222"
-                           , activeColor = "#555555"
-                           , activeTextColor = "#ffdb99"
-                           , activeBorderColor = "#ffdb99"
-                           , decoHeight = 28
-                           , fontName = "xft:Source Han Sans:size=12"}
+myTabTheme::Theme
+myTabTheme = def { inactiveColor = "#222222"
+                 , inactiveTextColor = "#777777"
+                 , inactiveBorderColor = "#222222"
+                 , activeColor = "#555555"
+                 , activeTextColor = "#ffdb99"
+                 , activeBorderColor = "#ffdb99"
+                 , decoHeight = 28
+                 , fontName = "xft:Source Han Sans:size=12"}
 
 myTabbedBottom = noBorders (tabbedBottom shrinkText myTabTheme)
 
