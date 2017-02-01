@@ -13,7 +13,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Maximize
 import XMonad.Layout.Tabbed
 import XMonad.Layout.MultiToggle
-import XMonad.Layout.NoBorders (noBorders, smartBorders)
+import XMonad.Layout.NoBorders (noBorders, smartBorders, lessBorders, Ambiguity (OnlyFloat))
 import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Reflect
 import XMonad.Layout.Spacing()
@@ -67,7 +67,13 @@ myTabTheme = def { inactiveColor = "#222222"
 
 myTabbedBottom = noBorders (tabbedBottom shrinkText myTabTheme)
 
-myLayout = avoidStruts $
+
+--remove borders (only) from floating windows covering the full screen
+--http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Layout-NoBorders.html
+--lessBorders OnlyFloat
+
+myLayout = lessBorders OnlyFloat $
+           avoidStruts $
            onWorkspace "1" myLayoutEmacs $
            onWorkspace "2" myLayoutTalk $
            onWorkspace "3" myLayoutEmacs $
